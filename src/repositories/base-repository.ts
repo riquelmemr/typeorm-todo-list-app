@@ -1,32 +1,56 @@
-import { DeepPartial, EntityTarget, FindOptionsWhere, ObjectLiteral, Repository } from "typeorm";
+import {
+  DeepPartial,
+  EntityTarget,
+  FindOptionsWhere,
+  ObjectLiteral,
+  Repository,
+} from "typeorm";
 import TypeORMProvider from "../database/pg-helper";
 import { IBaseRepository } from "./base-repository.interface";
 
-abstract class BaseRepository<T extends ObjectLiteral> implements IBaseRepository<T> {
+/**
+ * @param T: Entity
+ * @param M: Model
+ */
+abstract class BaseRepository<T extends ObjectLiteral, M>
+  implements IBaseRepository<T, M>
+{
+  // Propriedade que recebe a entidade do repositório
   protected entityClass!: EntityTarget<T>;
+
+  // Método abstrato que recebe uma entity, mapeia e retorna um model
+  protected abstract mapToModel(item: T): M;
 
   protected getRepository(): Repository<T> {
     return TypeORMProvider.client.getRepository(this.entityClass);
   }
 
-  async create(item: T): Promise<T> {
+  async create(item: T): Promise<M> {
     const repository = this.getRepository();
     const result = await repository.save(item);
-    return result;
+
+    return this.mapToModel(result);
   }
 
-  async getById(id: string): Promise<T | null> {
+  async getById(id: string): Promise<M | null> {
     const repository = this.getRepository();
-    return await repository.findOne({ where: { ["id" as keyof T]: id } as FindOptionsWhere<T> });
+    const item = await repository.findOne({
+      where: { ["id" as keyof T]: id } as FindOptionsWhere<T>,
+    });
+
+    return item ? this.mapToModel(item) : null;
   }
 
-  async getByOne(key: string, value: string): Promise<T | null> {
+  async getByOne(key: string, value: string): Promise<M | null> {
     const repository = this.getRepository();
-    const item = await repository.findOne({ where: { [key]: value } as FindOptionsWhere<T> });
-    return item;
+    const item = await repository.findOne({
+      where: { [key]: value } as FindOptionsWhere<T>,
+    });
+
+    return item ? this.mapToModel(item) : null;
   }
 
-  async update(id: string, item: any): Promise<T | null> {
+  async update(id: string, item: any): Promise<M | null> {
     const repository = this.getRepository();
     const result = await repository.update(id, item);
 
@@ -34,13 +58,18 @@ abstract class BaseRepository<T extends ObjectLiteral> implements IBaseRepositor
       return null;
     }
 
-    const updatedItem = await repository.findOne({ where: { ["id" as keyof T]: id } as FindOptionsWhere<T> });
-    return updatedItem;
+    const updatedItem = await repository.findOne({
+      where: { ["id" as keyof T]: id } as FindOptionsWhere<T>,
+    });
+
+    return updatedItem ? this.mapToModel(updatedItem) : null;
   }
 
   async delete(key: string, value: string): Promise<void> {
     const repository = this.getRepository();
-    const result = await repository.delete({ [key]: value } as FindOptionsWhere<T>);
+    const result = await repository.delete({
+      [key]: value,
+    } as FindOptionsWhere<T>);
 
     if (result.affected === 0) {
       throw new Error("Ocorreu um erro ao deletar este item.");

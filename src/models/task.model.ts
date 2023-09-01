@@ -5,18 +5,23 @@ class Task {
   private done: boolean;
   private archived: boolean;
   private createdAt: Date;
+  private updatedAt: Date;
   
   constructor(
     private title: string,
     private description: string,
-    private userId: string
+    private userId: string,
+    done?: boolean,
+    archived?: boolean,
+    id?: string
   ) {
-    this.id = randomUUID();
+    this.id = id || randomUUID();
     this.title = title;
     this.description = description;
-    this.done = false;
-    this.archived = false;
+    this.done = done || false;
+    this.archived = archived || false;
     this.createdAt = new Date();
+    this.updatedAt = new Date();
     this.userId = userId;
   }
 

@@ -2,18 +2,19 @@ import { randomUUID } from 'crypto';
 
 class User {
   private id: string;
-  private createdAt: string
+  private createdAt: Date
 
   constructor(
     private name: string,
     private email: string,
     private password: string,
+    id?: string,
   ) {
-    this.id = randomUUID();
+    this.id = id || randomUUID();
     this.name = name;
     this.email = email;
     this.password = password;
-    this.createdAt = new Date().toLocaleDateString('pt-BR');
+    this.createdAt = new Date();
   }
 
   public get Id(): string {

@@ -22,7 +22,7 @@ const configDevelopment: DataSourceOptions = {
   ssl: {
     rejectUnauthorized: false,
   },
-  migrations: ["./migrations/*.**"],
+  migrations: ["src/database/migrations/**/*"],
 	entities: ["src/database/entities/**/*"],
 }
 

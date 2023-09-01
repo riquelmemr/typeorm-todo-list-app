@@ -1,3 +1,4 @@
+import { encryptPassword } from "../../../helpers/encrypt/passwords.encrypt";
 import { HttpResponse, IHttpResponse } from "../../../helpers/http-response";
 import { UserRepository } from "../../../repositories/user/user.repository";
 import { ICreateUserRequestDTO } from "./create-user.dto";
@@ -14,11 +15,13 @@ class CreateUserUseCase {
       if (userFound) {
         throw new Error("Já existe um usuário com esse email! Tente outro.");
       }
-  
+
+      const encryptedPassword = encryptPassword(password);
+      
       const user = this.userRepository.createEntityInstance({
         name,
         email,
-        password
+        password: encryptedPassword
       })
       
       const userCreated = await this.userRepository.create(user);
@@ -27,13 +30,12 @@ class CreateUserUseCase {
         success: true,
         status: "Usuário criado com sucesso!",
         body: {
-          id: userCreated.id,
-          name: userCreated.name,
-          email: userCreated.email,
+          id: userCreated.Id,
+          name: userCreated.Name,
+          email: userCreated.Email,
         }
       });
     } catch (error: any) {
-      console.log(error);
       return HttpResponse.badRequest(error);
     }
   }

@@ -8,18 +8,19 @@ class CreateTaskUseCase {
   async execute(data: ICreateTaskRequestDTO): Promise<IHttpResponse> {
     try {
       const { title, description, userId } = data;
-  
+
       const task = this.taskRepository.createEntityInstance({
         title,
         description,
-        userId
+        userId,
       });
-      this.taskRepository.create(task);
-  
+
+      const taskCreated = await this.taskRepository.create(task);
+
       return HttpResponse.created({
         success: true,
         status: "Tarefa criada com sucesso!",
-        body: task
+        body: taskCreated,
       });
     } catch (error: any) {
       return HttpResponse.badRequest(error);

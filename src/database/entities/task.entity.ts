@@ -1,10 +1,11 @@
+import { randomUUID } from "crypto";
 import { BeforeInsert, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { UserEntity } from "./user.entity";
 
 @Entity({ name: "tasks" })
 export class TaskEntity {
   @PrimaryColumn()
-  id!: number;
+  id!: string;
 
   @Column({ type: "varchar" })
   title!: string;
@@ -37,7 +38,13 @@ export class TaskEntity {
 
   @BeforeInsert()
   beforeInsert() {
+    this.id = randomUUID();
     this.createdAt = new Date();
     // this.updatedAt = new Date();
   }
+
+  // @BeforeUpdate()
+  // beforeUpdate() {
+  //   this.updatedAt = new Date();
+  // }
 }

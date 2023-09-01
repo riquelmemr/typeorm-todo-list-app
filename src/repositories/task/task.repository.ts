@@ -1,21 +1,26 @@
 import { FindOptionsWhere, ILike } from "typeorm";
 import { TaskEntity } from "../../database/entities/task.entity";
+import Task from "../../models/task.model";
 import { IFindAllTasksFilterDTO } from "../../usecases/task/find-all/find-all-tasks.dto";
 import { BaseRepository } from "../base-repository";
 
-class TaskRepository extends BaseRepository<TaskEntity> {
+class TaskRepository extends BaseRepository<TaskEntity, Task> {
   constructor() {
     super();
     this.entityClass = TaskEntity;
   }
 
-  async getAllByUserId(userId: string, filters: IFindAllTasksFilterDTO): Promise<TaskEntity[]> {
-    const { done, archived, title, description } = filters;
+  async getAllByUserId(
+    userId: string,
+    filters: IFindAllTasksFilterDTO
+  ): Promise<Task[]> {
+    const { done, archived, title } = filters;
     const repository = this.getRepository();
+
     const options: FindOptionsWhere<TaskEntity> = { userId: userId };
 
     if (done !== undefined) {
-      options.done = done;      
+      options.done = done;
     }
 
     if (archived !== undefined) {
@@ -26,12 +31,19 @@ class TaskRepository extends BaseRepository<TaskEntity> {
       options.title = ILike(`%${title}%`);
     }
 
-    if (description) {
-      options.description = ILike(`%${description}%`);
-    }
-
     const tasks = await repository.find({ where: options });
-    return tasks;
+    return tasks.map((task) => this.mapToModel(task));
+  }
+
+  protected mapToModel(item: TaskEntity): Task {
+    return new Task(
+      item.title,
+      item.description,
+      item.userId,
+      item.done,
+      item.archived,
+      item.id
+    );
   }
 }
 

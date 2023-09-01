@@ -19,9 +19,6 @@ export class UserEntity {
   @Column({ name: "created_at", type: "timestamp" })
   createdAt!: Date;
 
-  // @Column({ name: "updated_at", type: "timestamp" })
-  // updatedAt!: Date;
-
   @OneToMany(() => TaskEntity, (task) => task.user)
   tasks!: TaskEntity[];
 
@@ -29,6 +26,5 @@ export class UserEntity {
   beforeInsert() {
     this.id = randomUUID();
     this.createdAt = new Date();
-    // this.updatedAt = new Date();
   }
 }

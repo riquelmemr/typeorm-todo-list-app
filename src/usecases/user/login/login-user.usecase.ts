@@ -1,3 +1,4 @@
+import { comparePasswords } from "../../../helpers/encrypt/passwords.encrypt";
 import { HttpResponse, IHttpResponse } from "../../../helpers/http-response";
 import { UserRepository } from "../../../repositories/user/user.repository";
 import { ILoginUserRequestDTO, ILoginUserResponseDTO } from "./login-user.dto";
@@ -15,25 +16,24 @@ class LoginUserUseCase {
         throw new Error("Utilize um email válido ou cadastre-se.");
       }
 
-      const matchPassword = userFound.password === password;
+      const matchPassword = comparePasswords(password, userFound.Password);
 
       if (!matchPassword) {
         throw new Error("Email e/ou senha inválidos!");
       }
 
-      const body: ILoginUserResponseDTO = {
-        id: userFound.id,
-        name: userFound.name,
-        email: userFound.email,
+      const user: ILoginUserResponseDTO = {
+        id: userFound.Id,
+        name: userFound.Name,
+        email: userFound.Email,
       }
 
       return HttpResponse.ok({
         success: true,
         status: "Usuário logado com sucesso!",
-        body
+        body: user
       })
     } catch (error: any) {
-      console.log(error);
       return HttpResponse.badRequest(error);
     }
   }

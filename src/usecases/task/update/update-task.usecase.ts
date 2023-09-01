@@ -10,16 +10,16 @@ class UpdateTaskUseCase {
       const { id, title, description, done, archived } = data;
 
       const task = await this.taskRepository.getById(id);
-  
-      if (!task || task.userId !== userId) {
+
+      if (!task || task.UserId !== userId) {
         throw new Error("Tarefa não encontrada para este usuário.");
       }
-  
+
       const taskUpdated = await this.taskRepository.update(id, {
-        title: title || task.title,
-        description: description || task.description,
-        done: done !== undefined ? done : task.done,
-        archived: archived !== undefined ? archived : task.archived
+        title: title || task.Title,
+        description: description || task.Description,
+        done: done !== undefined ? done : task.Done,
+        archived: archived !== undefined ? archived : task.Archived,
       });
 
       if (!taskUpdated) {
@@ -29,8 +29,8 @@ class UpdateTaskUseCase {
       return HttpResponse.ok({
         success: true,
         status: "Tarefa editada com sucesso!",
-        body: taskUpdated
-      })
+        body: taskUpdated,
+      });
     } catch (error: any) {
       return HttpResponse.badRequest(error);
     }
