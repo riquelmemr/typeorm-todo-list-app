@@ -1,8 +1,8 @@
 import cors from "cors";
-import "dotenv/config";
 import express from "express";
 import 'reflect-metadata';
 import TypeORMProvider from "./database/pg-helper";
+import ENV from "./env";
 import { TaskRepository } from "./repositories/task/task.repository";
 import { UserRepository } from "./repositories/user/user.repository";
 import { taskRoutes } from "./usecases/task/routes";
@@ -13,7 +13,7 @@ export const taskRepository = new TaskRepository();
 
 export async function bootstrap(): Promise<express.Application> {
   const app = express();
-  const port = process.env.PORT || 8080
+  const port = ENV.Application.PORT || 8080
   
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
