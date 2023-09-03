@@ -31,7 +31,11 @@ class TaskRepository extends BaseRepository<TaskEntity, Task> {
       options.title = ILike(`%${title}%`);
     }
 
-    const tasks = await repository.find({ where: options });
+    const tasks = await repository.find({
+      where: options,
+      order: { createdAt: "DESC" },
+    });
+    
     return tasks.map((task) => this.mapToModel(task));
   }
 
@@ -40,10 +44,10 @@ class TaskRepository extends BaseRepository<TaskEntity, Task> {
       item.id,
       item.title,
       item.description,
-      item.userId,  
+      item.userId,
       item.done,
       item.archived,
-      item.createdAt,
+      item.createdAt
     );
   }
 }
