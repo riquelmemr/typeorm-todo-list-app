@@ -1,27 +1,19 @@
-import { randomUUID } from "crypto";
-
 class Task {
-  private id: string;
-  private done: boolean;
-  private archived: boolean;
-  private createdAt: Date;
-  private updatedAt: Date;
-  
   constructor(
+    private id: string,
     private title: string,
     private description: string,
     private userId: string,
-    done?: boolean,
-    archived?: boolean,
-    id?: string
+    private done: boolean,
+    private archived: boolean,
+    private createdAt: Date,
   ) {
-    this.id = id || randomUUID();
+    this.id = id;
     this.title = title;
     this.description = description;
     this.done = done || false;
     this.archived = archived || false;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    this.createdAt = createdAt;
     this.userId = userId;
   }
 
@@ -71,4 +63,3 @@ class Task {
 }
 
 export default Task;
-

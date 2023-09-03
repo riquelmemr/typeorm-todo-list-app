@@ -18,7 +18,7 @@ abstract class BaseRepository<T extends ObjectLiteral, M>
   // Propriedade que recebe a entidade do repositório
   protected entityClass!: EntityTarget<T>;
 
-  // Método abstrato que recebe uma entity, mapeia e retorna um model
+  // Método abstrato que recebe uma entity, mapeia e retorna uma model
   protected abstract mapToModel(item: T): M;
 
   protected getRepository(): Repository<T> {
@@ -50,7 +50,7 @@ abstract class BaseRepository<T extends ObjectLiteral, M>
     return item ? this.mapToModel(item) : null;
   }
 
-  async update(id: string, item: any): Promise<M | null> {
+  async update(id: string, item: DeepPartial<T>): Promise<M | null> {
     const repository = this.getRepository();
     const result = await repository.update(id, item);
 

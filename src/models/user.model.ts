@@ -1,16 +1,13 @@
-import { randomUUID } from 'crypto';
 
 class User {
-  private id: string;
-  private createdAt: Date
-
   constructor(
+    private id: string,
     private name: string,
     private email: string,
     private password: string,
-    id?: string,
+    private createdAt: Date
   ) {
-    this.id = id || randomUUID();
+    this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;

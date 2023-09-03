@@ -20,6 +20,7 @@ class UpdateTaskUseCase {
         description: description || task.Description,
         done: done !== undefined ? done : task.Done,
         archived: archived !== undefined ? archived : task.Archived,
+        updatedAt: new Date(),
       });
 
       if (!taskUpdated) {

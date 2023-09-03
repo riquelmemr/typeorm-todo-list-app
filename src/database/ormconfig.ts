@@ -8,11 +8,9 @@ const configProduction: DataSourceOptions = {
   url: ENV.Database.DATABASE_URL,
   synchronize: false,
   logging: false,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-  migrations: ["./migrations/*.js"],
-  entities: ["./entities/*.entity.js"],
+  ssl: true,
+  migrations: ["dist/database/migrations/**/*"],
+  entities: ["dist/database/entities/**/*"],
 };
 
 const configDevelopment: DataSourceOptions = {

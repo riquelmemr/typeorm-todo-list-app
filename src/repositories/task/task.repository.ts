@@ -35,14 +35,15 @@ class TaskRepository extends BaseRepository<TaskEntity, Task> {
     return tasks.map((task) => this.mapToModel(task));
   }
 
-  protected mapToModel(item: TaskEntity): Task {
+  mapToModel(item: TaskEntity): Task {
     return new Task(
+      item.id,
       item.title,
       item.description,
-      item.userId,
+      item.userId,  
       item.done,
       item.archived,
-      item.id
+      item.createdAt,
     );
   }
 }

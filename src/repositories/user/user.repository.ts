@@ -9,7 +9,13 @@ class UserRepository extends BaseRepository<UserEntity, User> {
   }
 
   mapToModel(item: UserEntity): User {
-    return new User(item.name, item.email, item.password, item.id);
+    return new User(
+      item.id,
+      item.name,
+      item.email,
+      item.password,
+      item.createdAt
+    );
   }
 }
 
