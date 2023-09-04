@@ -2,18 +2,9 @@ import { DataSourceOptions } from "typeorm";
 import ENV from "../env";
 
 const env = ENV.Application.NODE_ENV;
+const basePath = env === "DEVELOPMENT" ? "src" : "dist";
 
-const configProduction: DataSourceOptions = {
-  type: "postgres",
-  url: ENV.Database.DATABASE_URL,
-  synchronize: false,
-  logging: false,
-  ssl: true,
-  migrations: ["dist/database/migrations/**/*"],
-  entities: ["dist/database/entities/**/*"],
-};
-
-const configDevelopment: DataSourceOptions = {
+const config: DataSourceOptions = {
   type: "postgres",
   url: ENV.Database.DATABASE_URL,
   synchronize: false,
@@ -21,8 +12,8 @@ const configDevelopment: DataSourceOptions = {
   ssl: {
     rejectUnauthorized: false,
   },
-  migrations: ["src/database/migrations/**/*"],
-  entities: ["src/database/entities/**/*"],
+  migrations: [`${basePath}/database/migrations/**/*`],
+  entities: [`${basePath}/database/entities/**/*`],
 };
 
-export default env === "PRODUCTION" ? configProduction : configDevelopment;
+export default config;
