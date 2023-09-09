@@ -7,6 +7,7 @@ class Task {
     private done: boolean,
     private archived: boolean,
     private createdAt: Date,
+    private finishedDate?: Date | null
   ) {
     this.id = id;
     this.title = title;
@@ -15,6 +16,7 @@ class Task {
     this.archived = archived || false;
     this.createdAt = createdAt;
     this.userId = userId;
+    this.finishedDate = finishedDate;
   }
 
   public get Id(): string {
@@ -45,20 +47,8 @@ class Task {
     return this.createdAt;
   }
 
-  public set Title(title: string) {
-    this.title = title;
-  }
-
-  public set Description(description: string) {
-    this.description = description;
-  }
-
-  public set Done(done: boolean) {
-    this.done = done;
-  }
-
-  public set Archived(archived: boolean) {
-    this.archived = archived;
+  public get FinishedDate(): Date | null | undefined {
+    return this.finishedDate;
   }
 }
 

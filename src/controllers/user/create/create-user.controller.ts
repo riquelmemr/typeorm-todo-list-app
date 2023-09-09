@@ -5,7 +5,7 @@ import { CreateUserUseCase } from "../../../usecases/user/create/create-user.use
 class CreateUserController {
   constructor(private createUserUseCase: CreateUserUseCase) {}
 
-  async execute(req: Request, res: Response)  {
+  async execute(req: Request, res: Response) {
     const data: ICreateUserRequestDTO = req.body;
     const { statusCode, body } = await this.createUserUseCase.execute(data);
 

@@ -7,7 +7,7 @@ class UpdateTaskUseCase {
 
   async execute(userId: string, data: IUpdateTaskRequestDTO) {
     try {
-      const { id, title, description, done, archived } = data;
+      const { id, title, description, done, archived, finishedDate } = data;
 
       const task = await this.taskRepository.getById(id);
 
@@ -20,6 +20,7 @@ class UpdateTaskUseCase {
         description: description || task.Description,
         done: done !== undefined ? done : task.Done,
         archived: archived !== undefined ? archived : task.Archived,
+        finishedDate: finishedDate || task.FinishedDate,
         updatedAt: new Date(),
       });
 

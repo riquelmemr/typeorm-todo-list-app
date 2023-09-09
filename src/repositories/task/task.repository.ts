@@ -35,7 +35,7 @@ class TaskRepository extends BaseRepository<TaskEntity, Task> {
       where: options,
       order: { createdAt: "DESC" },
     });
-    
+
     return tasks.map((task) => this.mapToModel(task));
   }
 
@@ -47,7 +47,8 @@ class TaskRepository extends BaseRepository<TaskEntity, Task> {
       item.userId,
       item.done,
       item.archived,
-      item.createdAt
+      item.createdAt,
+      item.finishedDate
     );
   }
 }

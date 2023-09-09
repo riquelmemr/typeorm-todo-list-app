@@ -8,9 +8,9 @@ class DeleteTaskController {
     const { id, userId } = req.params;
     const { statusCode, body } = await this.deleteTaskUseCase.execute({
       id,
-      userId
+      userId,
     });
-    
+
     return res.status(statusCode).json(body);
   }
 }

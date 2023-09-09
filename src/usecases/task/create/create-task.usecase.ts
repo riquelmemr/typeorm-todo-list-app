@@ -7,11 +7,12 @@ class CreateTaskUseCase {
 
   async execute(data: ICreateTaskRequestDTO): Promise<IHttpResponse> {
     try {
-      const { title, description, userId } = data;
+      const { title, description, finishedDate, userId } = data;
 
       const task = this.taskRepository.createEntityInstance({
         title,
         description,
+        finishedDate: finishedDate || null,
         userId,
       });
 

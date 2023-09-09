@@ -37,6 +37,9 @@ export class TaskEntity {
   @Column({ type: "boolean", default: false })
   archived!: boolean;
 
+  @Column({ name: "finished_date", type: "timestamp", nullable: true })
+  finishedDate?: Date | null;
+
   @Column({ name: "created_at", type: "timestamp" })
   createdAt!: Date;
 

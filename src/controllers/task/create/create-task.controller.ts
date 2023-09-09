@@ -8,10 +8,10 @@ class CreateTaskController {
   async execute(req: Request, res: Response) {
     const { userId } = req.params;
     const data: ICreateTaskRequestDTO = req.body;
-    
+
     const { statusCode, body } = await this.createTaskUseCase.execute({
       ...data,
-      userId
+      userId,
     });
 
     return res.status(statusCode).json(body);
@@ -19,4 +19,3 @@ class CreateTaskController {
 }
 
 export { CreateTaskController };
-

@@ -13,7 +13,9 @@ function createUserValidation(req: Request, res: Response, next: NextFunction) {
   }
 
   if (!password || password.length < 6) {
-    return res.status(400).json({ error: "A senha está vazia ou tem menos de 6 caracteres." });
+    return res
+      .status(400)
+      .json({ error: "A senha está vazia ou tem menos de 6 caracteres." });
   }
 
   next();

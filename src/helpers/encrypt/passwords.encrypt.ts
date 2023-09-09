@@ -8,4 +8,3 @@ export function encryptPassword(password: string): string {
 export function comparePasswords(password: string, hash: string): boolean {
   return bcrypt.compareSync(password, hash);
 }
-

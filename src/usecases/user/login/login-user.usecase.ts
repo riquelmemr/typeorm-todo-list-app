@@ -11,7 +11,7 @@ class LoginUserUseCase {
       const { email, password } = data;
 
       const userFound = await this.userRepository.getByOne("email", email);
-  
+
       if (!userFound) {
         throw new Error("Utilize um email válido ou cadastre-se.");
       }
@@ -26,13 +26,13 @@ class LoginUserUseCase {
         id: userFound.Id,
         name: userFound.Name,
         email: userFound.Email,
-      }
+      };
 
       return HttpResponse.ok({
         success: true,
         status: "Usuário logado com sucesso!",
-        body: user
-      })
+        body: user,
+      });
     } catch (error: any) {
       return HttpResponse.badRequest(error);
     }

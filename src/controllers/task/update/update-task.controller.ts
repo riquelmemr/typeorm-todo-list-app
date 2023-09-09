@@ -3,18 +3,19 @@ import { UpdateTaskUseCase } from "../../../usecases/task/update/update-task.use
 
 class UpdateTaskController {
   constructor(private updateTaskUseCase: UpdateTaskUseCase) {}
-  
+
   async execute(req: Request, res: Response) {
-    const { title, description, done, archived } = req.body;
+    const { title, description, done, archived, finishedDate } = req.body;
     const { userId, id } = req.params;
-    
+
     const { statusCode, body } = await this.updateTaskUseCase.execute(userId, {
       id,
       title,
       description,
       done,
-      archived
-    })
+      archived,
+      finishedDate: finishedDate || null,
+    });
 
     return res.status(statusCode).json(body);
   }
