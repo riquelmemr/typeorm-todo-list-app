@@ -26,7 +26,7 @@ export async function authMiddleware(
       .status(400)
       .json({
         error:
-          "O seu ID enviado não é do formato esperado. Realize o login novamente!",
+          "Ocorreu um erro ao buscar seu usuário, tente novamente.",
       });
   }
 }
